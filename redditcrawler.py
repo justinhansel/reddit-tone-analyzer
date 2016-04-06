@@ -46,13 +46,10 @@ class Browser:
         try:
             self.driver.find_element_by_id("header")
             print("Test subreddit, website is up.")
-            self.website_up = True
         except TimeoutException:
             print("Timeout, test subreddit down?")
-            self.website_up = False
         except NoSuchElementException:
             print("Web Element Missing, test subreddit down?")
-            self.website_up = False
 
         try:
             test_elements = self.driver.find_elements_by_css_selector("div.entry.unvoted > ul > li.first > a")
@@ -66,6 +63,28 @@ class Browser:
             print("Final URLs")
             for url in comment_list:
                 print(url)
+            threads = []
+            for url in comment_list:
+                thread_id = str(url).split('/')[6]
+                print("thread_id: " + thread_id)
+                thread_data = {}
+                thread_data["id"] = thread_id
+                self.driver.get(url)
+                try:
+                    self.driver.find_element_by_id("header")
+                    print("Navigated to comments page, website is up.")
+                    title = str(self.driver.find_element_by_css_selector("//*[@id=\"thing_t3_3uatsj\"]/div[2]/p[1]/a").text)
+                    thread_data["title"] = title
+                    comment_elements = self.driver.find_elements_by_css_selector("div.entry.unvoted")
+                    print("Found comment elements")
+                    for element in comment_elements:
+                        print(str(element.find_element_by_xpath("css=p/a[2]").text))
+                    # thread_data["thread_id"] =
+                except TimeoutException:
+                    print("Timeout, test comments page down?")
+                except NoSuchElementException:
+                    print("Web Element Missing, test comments page down?")
+
         except NoSuchElementException:
             print("didn't find anything")
 

@@ -5,9 +5,6 @@ from redditcrawler import Browser
 
 tone_analyzer = json.load(open('bluemix_credentials.json'))
 
-for key in tone_analyzer:
-    print(key + " : " + tone_analyzer[key])
-
 if __name__ == "__main__":
     # db = Database()
     """ db.c.execute('''CREATE TABLE subreddits
