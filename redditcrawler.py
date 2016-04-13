@@ -73,12 +73,14 @@ class Browser:
                 try:
                     self.driver.find_element_by_id("header")
                     print("Navigated to comments page, website is up.")
-                    title = str(self.driver.find_element_by_css_selector("//*[@id=\"thing_t3_3uatsj\"]/div[2]/p[1]/a").text)
+                    title = str(self.driver.find_element_by_css_selector("div.entry.unvoted > p.title > a").text)
+                    print("found title: " + title)
                     thread_data["title"] = title
-                    comment_elements = self.driver.find_elements_by_css_selector("div.entry.unvoted")
+                    comment_elements = self.driver.find_elements_by_css_selector("div.entry.unvoted > form > div > div")
                     print("Found comment elements")
                     for element in comment_elements:
-                        print(str(element.find_element_by_xpath("css=p/a[2]").text))
+                        for p in element.find_elements_by_css_selector("p"):
+                            print(p.text)
                     # thread_data["thread_id"] =
                 except TimeoutException:
                     print("Timeout, test comments page down?")
