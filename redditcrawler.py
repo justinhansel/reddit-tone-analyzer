@@ -39,56 +39,87 @@ class Browser:
     def goto_subreddit(self,subreddit):
         print("TODO thing")
 
+    def find_exception(self, func, implicit_wait=None, error=None):
+        if(implicit_wait != None):
+            self.driver.implicitly_wait(5)
+        else:
+            self.driver.implicitly_wait(implicit_wait)
+        try:
+            result = func()
+            print("No exceptions for " + error)
+            return func()
+        except TimeoutException:
+            if error is not None:
+                print(error + " TimeoutException")
+            else:
+                print("TimeoutException")
+            return None
+        except NoSuchElementException:
+            if error is not None:
+                print(error + " NoSuchElementException")
+            else:
+                print("NoSuchElementException")
+            return None
+
     def get_comment_links(self):
         subreddit_name = "buildapcsales"
         test_url = "https://www.reddit.com/r/" + subreddit_name
         self.driver.get(test_url)
-        try:
-            self.driver.find_element_by_id("header")
-            print("Test subreddit, website is up.")
-        except TimeoutException:
-            print("Timeout, test subreddit down?")
-        except NoSuchElementException:
-            print("Web Element Missing, test subreddit down?")
 
-        try:
-            test_elements = self.driver.find_elements_by_css_selector("div.entry.unvoted > ul > li.first > a")
-            print("found something, " + str(test_elements.__len__()))
-            comment_list = []
-            for element in test_elements:
-                data = element.get_attribute("href")
-                if(subreddit_name in data):
-                    comment_list.append(data)
+        # Find exception helpers
+        find = self.find_exception
+        f = lambda: self.driver.find_element_by_id("header")
 
-            print("Final URLs")
-            for url in comment_list:
-                print(url)
-            threads = []
-            for url in comment_list:
-                thread_id = str(url).split('/')[6]
-                print("thread_id: " + thread_id)
-                thread_data = {}
-                thread_data["id"] = thread_id
-                self.driver.get(url)
-                try:
-                    self.driver.find_element_by_id("header")
-                    print("Navigated to comments page, website is up.")
-                    title = str(self.driver.find_element_by_css_selector("div.entry.unvoted > p.title > a").text)
-                    print("found title: " + title)
-                    thread_data["title"] = title
-                    comment_elements = self.driver.find_elements_by_css_selector("div.entry.unvoted > form > div > div")
-                    print("Found comment elements")
-                    for element in comment_elements:
-                        for p in element.find_elements_by_css_selector("p"):
-                            print(p.text)
-                    # thread_data["thread_id"] =
-                except TimeoutException:
-                    print("Timeout, test comments page down?")
-                except NoSuchElementException:
-                    print("Web Element Missing, test comments page down?")
+        subreddit_page = find(f, 1, subreddit_name + " subreddit")
+        if subreddit_page is not None: # Subreddit page loaded correctly
+            f = lambda: self.driver.find_elements_by_css_selector("div.entry.unvoted > ul > li.first > a")
+            page_link_elements = find(f, 1, subreddit_name + " page link elements")
+            if page_link_elements is not None: # Found page link elements
+                # Get links from elements
+                page_links = []
+                for element in page_link_elements:
+                    data = element.get_attribute("href")
+                    if subreddit_name in data:
+                        page_links.append(data)
 
-        except NoSuchElementException:
-            print("didn't find anything")
+                for url in page_links:
+                    # Get unique thread id from url
+                    thread_id = str(url).split('/')[6]
+
+                    # Thread data holds keys for id, TODO: figure out what else goes here
+                    thread_data = {}
+                    thread_data["id"] = thread_id
+
+                    # Navigate to thread url
+                    self.driver.get(url)
+                    f = lambda: self.driver.find_element_by_id("header")
+                    thread_page = find(f,5,"Thread " + thread_id)
+                    if thread_page is not None: # Thread page loaded properly
+                        # Get thread title
+                        f = lambda: str(self.driver.find_element_by_css_selector("div.entry.unvoted > p.title > a").text)
+                        title = find(f,1,"Thread title " + thread_id)
+                        thread_data["title"] = title
+
+                        # Get comment elements
+                        f = lambda: self.driver.find_elements_by_css_selector("div.entry.unvoted > form > div > div")
+                        comment_elements = find(f,1, "Thread comment elements " + thread_id)
+                        if comment_elements is not None:
+                            for element in comment_elements:
+                                f = lambda: element.find_element_by_css_selector("p.tagline > a.author")
+                                author = find(f,1,"\tauthor")
+                                f = lambda: element.find_element_by_css_selector("p.tagline > p.tagline > span.score.unvoted")
+                                karma = find(f,1,"\tkarma")
+                                f = lambda: element.find_element_by_css_selector("p.tagline > time")
+                                time_posted = find(f,1,"\ttime_posted")
+                                f = lambda: element.find_elements_by_css_selector("form > div > div")
+                                content = ""
+                                contents = find(f,1,"\tcontent")
+                                if contents is not None:
+                                    for p in contents:
+                                        content += p.text + "\n"
+                                else:
+                                    content = None
+                                print("author: {}\nkarma:{}\ntime_posted:{}\ncontent:{}", author, karma, time_posted,content)
 
 
     # Profile definition to remove images, flash, styling
