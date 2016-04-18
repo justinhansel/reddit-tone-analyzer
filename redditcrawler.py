@@ -40,13 +40,13 @@ class Browser:
         print("TODO thing")
 
     def find_exception(self, func, implicit_wait=None, error=None):
-        if(implicit_wait != None):
+        if implicit_wait is not None:
             self.driver.implicitly_wait(5)
         else:
             self.driver.implicitly_wait(implicit_wait)
         try:
             result = func()
-            print("No exceptions for " + error)
+            print(error + " NoExceptions")
             return func()
         except TimeoutException:
             if error is not None:
@@ -69,7 +69,7 @@ class Browser:
         # Find exception helpers
         find = self.find_exception
         f = lambda: self.driver.find_element_by_id("header")
-
+        subreddit_threads = []
         subreddit_page = find(f, 1, subreddit_name + " subreddit")
         if subreddit_page is not None: # Subreddit page loaded correctly
             f = lambda: self.driver.find_elements_by_css_selector("div.entry.unvoted > ul > li.first > a")
@@ -81,7 +81,8 @@ class Browser:
                     data = element.get_attribute("href")
                     if subreddit_name in data:
                         page_links.append(data)
-
+                threads_read = 0
+                comments_read = 0
                 for url in page_links:
                     # Get unique thread id from url
                     thread_id = str(url).split('/')[6]
@@ -93,33 +94,66 @@ class Browser:
                     # Navigate to thread url
                     self.driver.get(url)
                     f = lambda: self.driver.find_element_by_id("header")
-                    thread_page = find(f,5,"Thread " + thread_id)
+                    thread_page = find(f, 10,"Thread " + thread_id)
                     if thread_page is not None: # Thread page loaded properly
                         # Get thread title
                         f = lambda: str(self.driver.find_element_by_css_selector("div.entry.unvoted > p.title > a").text)
-                        title = find(f,1,"Thread title " + thread_id)
+                        title = find(f, 1, "Thread title " + thread_id)
                         thread_data["title"] = title
 
                         # Get comment elements
-                        f = lambda: self.driver.find_elements_by_css_selector("div.entry.unvoted > form > div > div")
-                        comment_elements = find(f,1, "Thread comment elements " + thread_id)
+                        f = lambda: self.driver.find_elements_by_css_selector("div.entry.unvoted")
+                        comment_elements = find(f, 1, "Thread comment elements " + thread_id)
                         if comment_elements is not None:
+                            comment_count = 0
                             for element in comment_elements:
+                                f = lambda: element.find_element_by_css_selector("ul.flat-list > li.first > a")
+                                comment_id = find(f, 1, "\tcomment_id")
+                                if comment_id is not None:
+                                    comment_id = comment_id.get_attribute("href")
+                                else:
+                                    continue
+
                                 f = lambda: element.find_element_by_css_selector("p.tagline > a.author")
-                                author = find(f,1,"\tauthor")
-                                f = lambda: element.find_element_by_css_selector("p.tagline > p.tagline > span.score.unvoted")
-                                karma = find(f,1,"\tkarma")
+                                author = find(f, 1, "\tauthor")
+                                if author is not None:
+                                    author = author.text
+                                else:
+                                    continue
+
+                                f = lambda: element.find_element_by_css_selector("p.tagline > span.score.unvoted")
+                                karma = find(f, 1, "\tkarma")
+                                if karma is not None:
+                                    karma = karma.text
+                                else:
+                                    continue
+
                                 f = lambda: element.find_element_by_css_selector("p.tagline > time")
-                                time_posted = find(f,1,"\ttime_posted")
-                                f = lambda: element.find_elements_by_css_selector("form > div > div")
+                                time_posted = find(f, 1, "\ttime_posted")
+                                if time_posted is not None:
+                                    time_posted = time_posted.get_attribute("title")
+                                else:
+                                    continue
+
+                                f = lambda: element.find_elements_by_css_selector("form > div > div.md")
                                 content = ""
-                                contents = find(f,1,"\tcontent")
+                                contents = find(f, 1, "\tcontent")
                                 if contents is not None:
                                     for p in contents:
                                         content += p.text + "\n"
                                 else:
-                                    content = None
-                                print("author: {}\nkarma:{}\ntime_posted:{}\ncontent:{}", author, karma, time_posted,content)
+                                    continue
+                                print("author: {}\nkarma:{}\ntime_posted:{}\ncontent:{}".format(author, karma, time_posted, content))
+                                comment_count += 1
+                                if comment_count > 9:
+                                    print("READ OVER THREAD COMMENTS LIMIT, STOP READING THREAD COMMENTS")
+                                    break
+                            comments_read += comment_count
+                            print("FINISHED PROCESSING THREAD " + thread_id + ": " + thread_data["title"])
+                            print("\tTOTAL COMMENTS READ: " + str(comments_read))
+                            if comments_read > 99:
+                                print("READ OVER SUBREDDIT COMMENTS LIMIT, STOP READING LINKS/PAGES")
+                                break
 
 
     # Profile definition to remove images, flash, styling
