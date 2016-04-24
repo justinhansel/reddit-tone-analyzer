@@ -6,7 +6,7 @@ from redditcrawler import Browser
 tone_analyzer = json.load(open('bluemix_credentials.json'))
 
 if __name__ == "__main__":
-    # db = Database()
+    db = Database()
     """ db.c.execute('''CREATE TABLE subreddits
                     (id INTEGER PRIMARY key,
                      subreddit VARCHAR(256) NOT NULL,
@@ -14,12 +14,12 @@ if __name__ == "__main__":
                      scan_date DATE NOT NULL)''')
     """
 
-    b = Browser()
+    # b = Browser()
 
-    while not b.website_up:
-        b.check_reddit_status()
+    # while not b.website_up:
+    #    b.check_reddit_status()
 
-    b.get_comment_links()
+    # b.get_comment_links()
 
 
     # print("yep")
