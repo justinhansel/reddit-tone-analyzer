@@ -1,0 +1,728 @@
+{
+  "document_tone": {
+    "tone_categories": [
+      {
+        "tones": [
+          {
+            "tone_name": "Anger",
+            "score": 0.043925,
+            "tone_id": "anger"
+          },
+          {
+            "tone_name": "Disgust",
+            "score": 0.114299,
+            "tone_id": "disgust"
+          },
+          {
+            "tone_name": "Fear",
+            "score": 0.086947,
+            "tone_id": "fear"
+          },
+          {
+            "tone_name": "Joy",
+            "score": 0.009458,
+            "tone_id": "joy"
+          },
+          {
+            "tone_name": "Sadness",
+            "score": 0.078586,
+            "tone_id": "sadness"
+          }
+        ],
+        "category_id": "emotion_tone",
+        "category_name": "Emotion Tone"
+      },
+      {
+        "tones": [
+          {
+            "tone_name": "Analytical",
+            "score": 0.855,
+            "tone_id": "analytical"
+          },
+          {
+            "tone_name": "Confident",
+            "score": 0.453,
+            "tone_id": "confident"
+          },
+          {
+            "tone_name": "Tentative",
+            "score": 0.319,
+            "tone_id": "tentative"
+          }
+        ],
+        "category_id": "writing_tone",
+        "category_name": "Writing Tone"
+      },
+      {
+        "tones": [
+          {
+            "tone_name": "Openness",
+            "score": 0.265,
+            "tone_id": "openness_big5"
+          },
+          {
+            "tone_name": "Conscientiousness",
+            "score": 0.278,
+            "tone_id": "conscientiousness_big5"
+          },
+          {
+            "tone_name": "Extraversion",
+            "score": 0.633,
+            "tone_id": "extraversion_big5"
+          },
+          {
+            "tone_name": "Agreeableness",
+            "score": 0.498,
+            "tone_id": "agreeableness_big5"
+          },
+          {
+            "tone_name": "Emotional Range",
+            "score": 0.861,
+            "tone_id": "neuroticism_big5"
+          }
+        ],
+        "category_id": "social_tone",
+        "category_name": "Social Tone"
+      }
+    ]
+  },
+  "sentences_tone": [
+    {
+      "sentence_id": 0,
+      "tone_categories": [
+        {
+          "tones": [
+            {
+              "tone_name": "Anger",
+              "score": 0.051038,
+              "tone_id": "anger"
+            },
+            {
+              "tone_name": "Disgust",
+              "score": 0.185565,
+              "tone_id": "disgust"
+            },
+            {
+              "tone_name": "Fear",
+              "score": 0.40806,
+              "tone_id": "fear"
+            },
+            {
+              "tone_name": "Joy",
+              "score": 0.065849,
+              "tone_id": "joy"
+            },
+            {
+              "tone_name": "Sadness",
+              "score": 0.138738,
+              "tone_id": "sadness"
+            }
+          ],
+          "category_id": "emotion_tone",
+          "category_name": "Emotion Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Analytical",
+              "score": 0.783,
+              "tone_id": "analytical"
+            },
+            {
+              "tone_name": "Confident",
+              "score": 0.0,
+              "tone_id": "confident"
+            },
+            {
+              "tone_name": "Tentative",
+              "score": 0.0,
+              "tone_id": "tentative"
+            }
+          ],
+          "category_id": "writing_tone",
+          "category_name": "Writing Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Openness",
+              "score": 0.245,
+              "tone_id": "openness_big5"
+            },
+            {
+              "tone_name": "Conscientiousness",
+              "score": 0.073,
+              "tone_id": "conscientiousness_big5"
+            },
+            {
+              "tone_name": "Extraversion",
+              "score": 0.767,
+              "tone_id": "extraversion_big5"
+            },
+            {
+              "tone_name": "Agreeableness",
+              "score": 0.515,
+              "tone_id": "agreeableness_big5"
+            },
+            {
+              "tone_name": "Emotional Range",
+              "score": 0.931,
+              "tone_id": "neuroticism_big5"
+            }
+          ],
+          "category_id": "social_tone",
+          "category_name": "Social Tone"
+        }
+      ],
+      "input_to": 141,
+      "input_from": 0,
+      "text": "My understanding of why this would happen, jack must be giving these guys huge percentage incentives for selling that spot once they qualify."
+    },
+    {
+      "sentence_id": 1,
+      "tone_categories": [
+        {
+          "tones": [
+            {
+              "tone_name": "Anger",
+              "score": 0.062519,
+              "tone_id": "anger"
+            },
+            {
+              "tone_name": "Disgust",
+              "score": 0.11327,
+              "tone_id": "disgust"
+            },
+            {
+              "tone_name": "Fear",
+              "score": 0.496865,
+              "tone_id": "fear"
+            },
+            {
+              "tone_name": "Joy",
+              "score": 0.018694,
+              "tone_id": "joy"
+            },
+            {
+              "tone_name": "Sadness",
+              "score": 0.142593,
+              "tone_id": "sadness"
+            }
+          ],
+          "category_id": "emotion_tone",
+          "category_name": "Emotion Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Analytical",
+              "score": 0.909,
+              "tone_id": "analytical"
+            },
+            {
+              "tone_name": "Confident",
+              "score": 0.0,
+              "tone_id": "confident"
+            },
+            {
+              "tone_name": "Tentative",
+              "score": 0.0,
+              "tone_id": "tentative"
+            }
+          ],
+          "category_id": "writing_tone",
+          "category_name": "Writing Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Openness",
+              "score": 0.123,
+              "tone_id": "openness_big5"
+            },
+            {
+              "tone_name": "Conscientiousness",
+              "score": 0.082,
+              "tone_id": "conscientiousness_big5"
+            },
+            {
+              "tone_name": "Extraversion",
+              "score": 0.498,
+              "tone_id": "extraversion_big5"
+            },
+            {
+              "tone_name": "Agreeableness",
+              "score": 0.502,
+              "tone_id": "agreeableness_big5"
+            },
+            {
+              "tone_name": "Emotional Range",
+              "score": 0.917,
+              "tone_id": "neuroticism_big5"
+            }
+          ],
+          "category_id": "social_tone",
+          "category_name": "Social Tone"
+        }
+      ],
+      "input_to": 223,
+      "input_from": 142,
+      "text": "I don't know the nature of their contracts but let's assume base pay is the same."
+    },
+    {
+      "sentence_id": 2,
+      "tone_categories": [
+        {
+          "tones": [
+            {
+              "tone_name": "Anger",
+              "score": 0.052957,
+              "tone_id": "anger"
+            },
+            {
+              "tone_name": "Disgust",
+              "score": 0.043182,
+              "tone_id": "disgust"
+            },
+            {
+              "tone_name": "Fear",
+              "score": 0.031149,
+              "tone_id": "fear"
+            },
+            {
+              "tone_name": "Joy",
+              "score": 0.390267,
+              "tone_id": "joy"
+            },
+            {
+              "tone_name": "Sadness",
+              "score": 0.463978,
+              "tone_id": "sadness"
+            }
+          ],
+          "category_id": "emotion_tone",
+          "category_name": "Emotion Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Analytical",
+              "score": 0.0,
+              "tone_id": "analytical"
+            },
+            {
+              "tone_name": "Confident",
+              "score": 0.0,
+              "tone_id": "confident"
+            },
+            {
+              "tone_name": "Tentative",
+              "score": 0.0,
+              "tone_id": "tentative"
+            }
+          ],
+          "category_id": "writing_tone",
+          "category_name": "Writing Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Openness",
+              "score": 0.867,
+              "tone_id": "openness_big5"
+            },
+            {
+              "tone_name": "Conscientiousness",
+              "score": 0.957,
+              "tone_id": "conscientiousness_big5"
+            },
+            {
+              "tone_name": "Extraversion",
+              "score": 0.26,
+              "tone_id": "extraversion_big5"
+            },
+            {
+              "tone_name": "Agreeableness",
+              "score": 0.165,
+              "tone_id": "agreeableness_big5"
+            },
+            {
+              "tone_name": "Emotional Range",
+              "score": 0.208,
+              "tone_id": "neuroticism_big5"
+            }
+          ],
+          "category_id": "social_tone",
+          "category_name": "Social Tone"
+        }
+      ],
+      "input_to": 299,
+      "input_from": 224,
+      "text": "The only way for players to make more money are to win tourneys and stream."
+    },
+    {
+      "sentence_id": 3,
+      "tone_categories": [
+        {
+          "tones": [
+            {
+              "tone_name": "Anger",
+              "score": 0.152398,
+              "tone_id": "anger"
+            },
+            {
+              "tone_name": "Disgust",
+              "score": 0.202251,
+              "tone_id": "disgust"
+            },
+            {
+              "tone_name": "Fear",
+              "score": 0.077007,
+              "tone_id": "fear"
+            },
+            {
+              "tone_name": "Joy",
+              "score": 0.154049,
+              "tone_id": "joy"
+            },
+            {
+              "tone_name": "Sadness",
+              "score": 0.057064,
+              "tone_id": "sadness"
+            }
+          ],
+          "category_id": "emotion_tone",
+          "category_name": "Emotion Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Analytical",
+              "score": 0.0,
+              "tone_id": "analytical"
+            },
+            {
+              "tone_name": "Confident",
+              "score": 0.0,
+              "tone_id": "confident"
+            },
+            {
+              "tone_name": "Tentative",
+              "score": 0.0,
+              "tone_id": "tentative"
+            }
+          ],
+          "category_id": "writing_tone",
+          "category_name": "Writing Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Openness",
+              "score": 0.393,
+              "tone_id": "openness_big5"
+            },
+            {
+              "tone_name": "Conscientiousness",
+              "score": 0.918,
+              "tone_id": "conscientiousness_big5"
+            },
+            {
+              "tone_name": "Extraversion",
+              "score": 0.581,
+              "tone_id": "extraversion_big5"
+            },
+            {
+              "tone_name": "Agreeableness",
+              "score": 0.429,
+              "tone_id": "agreeableness_big5"
+            },
+            {
+              "tone_name": "Emotional Range",
+              "score": 0.239,
+              "tone_id": "neuroticism_big5"
+            }
+          ],
+          "category_id": "social_tone",
+          "category_name": "Social Tone"
+        }
+      ],
+      "input_to": 388,
+      "input_from": 300,
+      "text": "These guys get to go stream full time and basically play to win money by selling a spot."
+    },
+    {
+      "sentence_id": 4,
+      "tone_categories": [
+        {
+          "tones": [
+            {
+              "tone_name": "Anger",
+              "score": 0.033485,
+              "tone_id": "anger"
+            },
+            {
+              "tone_name": "Disgust",
+              "score": 0.03385,
+              "tone_id": "disgust"
+            },
+            {
+              "tone_name": "Fear",
+              "score": 0.059724,
+              "tone_id": "fear"
+            },
+            {
+              "tone_name": "Joy",
+              "score": 0.765165,
+              "tone_id": "joy"
+            },
+            {
+              "tone_name": "Sadness",
+              "score": 0.177827,
+              "tone_id": "sadness"
+            }
+          ],
+          "category_id": "emotion_tone",
+          "category_name": "Emotion Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Analytical",
+              "score": 0.559,
+              "tone_id": "analytical"
+            },
+            {
+              "tone_name": "Confident",
+              "score": 0.0,
+              "tone_id": "confident"
+            },
+            {
+              "tone_name": "Tentative",
+              "score": 0.695,
+              "tone_id": "tentative"
+            }
+          ],
+          "category_id": "writing_tone",
+          "category_name": "Writing Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Openness",
+              "score": 0.169,
+              "tone_id": "openness_big5"
+            },
+            {
+              "tone_name": "Conscientiousness",
+              "score": 0.217,
+              "tone_id": "conscientiousness_big5"
+            },
+            {
+              "tone_name": "Extraversion",
+              "score": 0.72,
+              "tone_id": "extraversion_big5"
+            },
+            {
+              "tone_name": "Agreeableness",
+              "score": 0.824,
+              "tone_id": "agreeableness_big5"
+            },
+            {
+              "tone_name": "Emotional Range",
+              "score": 0.813,
+              "tone_id": "neuroticism_big5"
+            }
+          ],
+          "category_id": "social_tone",
+          "category_name": "Social Tone"
+        }
+      ],
+      "input_to": 500,
+      "input_from": 389,
+      "text": "Then in 1 year you can create some kind of super squad as everyone except Jensen will be NA based if they want."
+    },
+    {
+      "sentence_id": 5,
+      "tone_categories": [
+        {
+          "tones": [
+            {
+              "tone_name": "Anger",
+              "score": 0.142352,
+              "tone_id": "anger"
+            },
+            {
+              "tone_name": "Disgust",
+              "score": 0.235968,
+              "tone_id": "disgust"
+            },
+            {
+              "tone_name": "Fear",
+              "score": 0.126264,
+              "tone_id": "fear"
+            },
+            {
+              "tone_name": "Joy",
+              "score": 0.027277,
+              "tone_id": "joy"
+            },
+            {
+              "tone_name": "Sadness",
+              "score": 0.111092,
+              "tone_id": "sadness"
+            }
+          ],
+          "category_id": "emotion_tone",
+          "category_name": "Emotion Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Analytical",
+              "score": 0.0,
+              "tone_id": "analytical"
+            },
+            {
+              "tone_name": "Confident",
+              "score": 0.362,
+              "tone_id": "confident"
+            },
+            {
+              "tone_name": "Tentative",
+              "score": 0.0,
+              "tone_id": "tentative"
+            }
+          ],
+          "category_id": "writing_tone",
+          "category_name": "Writing Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Openness",
+              "score": 0.734,
+              "tone_id": "openness_big5"
+            },
+            {
+              "tone_name": "Conscientiousness",
+              "score": 0.746,
+              "tone_id": "conscientiousness_big5"
+            },
+            {
+              "tone_name": "Extraversion",
+              "score": 0.652,
+              "tone_id": "extraversion_big5"
+            },
+            {
+              "tone_name": "Agreeableness",
+              "score": 0.534,
+              "tone_id": "agreeableness_big5"
+            },
+            {
+              "tone_name": "Emotional Range",
+              "score": 0.31,
+              "tone_id": "neuroticism_big5"
+            }
+          ],
+          "category_id": "social_tone",
+          "category_name": "Social Tone"
+        }
+      ],
+      "input_to": 639,
+      "input_from": 501,
+      "text": "Whoever came up with this scheme is definitely counting dollar signs and is looking to cash in before these LCS spots bubble value bursts."
+    },
+    {
+      "sentence_id": 6,
+      "tone_categories": [
+        {
+          "tones": [
+            {
+              "tone_name": "Anger",
+              "score": 0.065442,
+              "tone_id": "anger"
+            },
+            {
+              "tone_name": "Disgust",
+              "score": 0.116073,
+              "tone_id": "disgust"
+            },
+            {
+              "tone_name": "Fear",
+              "score": 0.266521,
+              "tone_id": "fear"
+            },
+            {
+              "tone_name": "Joy",
+              "score": 0.219361,
+              "tone_id": "joy"
+            },
+            {
+              "tone_name": "Sadness",
+              "score": 0.382274,
+              "tone_id": "sadness"
+            }
+          ],
+          "category_id": "emotion_tone",
+          "category_name": "Emotion Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Analytical",
+              "score": 0.915,
+              "tone_id": "analytical"
+            },
+            {
+              "tone_name": "Confident",
+              "score": 0.0,
+              "tone_id": "confident"
+            },
+            {
+              "tone_name": "Tentative",
+              "score": 0.0,
+              "tone_id": "tentative"
+            }
+          ],
+          "category_id": "writing_tone",
+          "category_name": "Writing Tone"
+        },
+        {
+          "tones": [
+            {
+              "tone_name": "Openness",
+              "score": 0.2,
+              "tone_id": "openness_big5"
+            },
+            {
+              "tone_name": "Conscientiousness",
+              "score": 0.491,
+              "tone_id": "conscientiousness_big5"
+            },
+            {
+              "tone_name": "Extraversion",
+              "score": 0.149,
+              "tone_id": "extraversion_big5"
+            },
+            {
+              "tone_name": "Agreeableness",
+              "score": 0.255,
+              "tone_id": "agreeableness_big5"
+            },
+            {
+              "tone_name": "Emotional Range",
+              "score": 0.914,
+              "tone_id": "neuroticism_big5"
+            }
+          ],
+          "category_id": "social_tone",
+          "category_name": "Social Tone"
+        }
+      ],
+      "input_to": 663,
+      "input_from": 640,
+      "text": "I think jacks a genius."
+    }
+  ]
+}

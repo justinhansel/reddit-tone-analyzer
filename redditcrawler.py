@@ -3,9 +3,11 @@ from selenium.common.exceptions import NoSuchElementException,TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.firefox.firefox_profile import FirefoxProfile
 
+from datetime import datetime
+
 # Handles browser crawling functions
 class Browser:
-    def __init__(self):
+    def __init__(self, database):
         # self.driver = webdriver.Firefox(self.minimal_firefox_profile())
         self.driver = webdriver.Firefox()
         self.driver.set_script_timeout(5)
@@ -17,10 +19,12 @@ class Browser:
         self.reddit_base_url = "https://www.reddit.com/"
         self.website_up = False
 
-        self.MAX_COMMENTS_PER_SUBREDDIT = 100
-        self.MAX_COMMENTS_PER_THREAD = 10
+        self.MAX_COMMENTS_PER_SUBREDDIT = 500
+        self.MAX_COMMENTS_PER_THREAD = 20
 
         self.find = self.find_exception
+
+        self.db = database
 
     def reset_implicit_wait(self):
         self.driver.implicitly_wait(self.implicit_wait)
@@ -46,9 +50,9 @@ class Browser:
 
     def find_exception(self, func, implicit_wait=None, error=None):
         if implicit_wait is not None:
-            self.driver.implicitly_wait(5)
+            self.driver.implicitly_wait(0)
         else:
-            self.driver.implicitly_wait(implicit_wait)
+            self.driver.implicitly_wait(0)
         try:
             result = func()
             print(error + " NoExceptions")
@@ -66,10 +70,17 @@ class Browser:
                 print("NoSuchElementException")
             return None
 
-    def get_comment_links(self):
-        subreddit_name = "buildapcsales"
-        test_url = "https://www.reddit.com/r/" + subreddit_name
-        self.driver.get(test_url)
+    def crawl_subreddit(self, subreddit_name):
+        # Check if number of comments in database is over limit
+        total_comments = self.db.get_subreddit_comments_count(subreddit_name)
+
+        subreddit_url = "https://www.reddit.com/r/" + subreddit_name
+
+        # self.driver.get(subreddit_url)
+        self.get_thread_page(subreddit_url, subreddit_name)
+
+        # Add subreddit to database
+        self.db.add_subreddit(subreddit_name)
 
         # Find exception helpers
         find = self.find_exception
@@ -78,25 +89,40 @@ class Browser:
 
         page_links = self.get_page_links(subreddit_name)
 
-        total_comments = 0
+        if total_comments is None:
+            total_comments = 0
+
+        if page_links is None:
+            print ("something bad happened")
+            return
 
         for url in page_links:
+            if url is None:
+                continue
             # Get unique thread id from url
-            thread_id = str(url).split('/')[6]
+            url_array = str(url).split('/')
+            if len(url_array) < 6:
+                continue
+            thread_id = url_array[6]
 
-            # Thread data holds keys for id, TODO: figure out what else goes here
+            # Check if thread is crawled
+            crawled = self.db.get_thread_crawled(thread_id)
+            if crawled:
+                continue
 
             # Navigate to thread url
             thread_page = self.get_thread_page(url, thread_id)
+            thread_title = self.get_thread_title(thread_page, thread_id)
 
             thread_comments_elements = self.get_thread_comments_elements(thread_page, thread_id)
             thread_comments = self.get_thread_comments(thread_comments_elements, thread_id)
-            thread_title = self.get_thread_comments_elements(thread_page, thread_id)
-            thread_data = {"id": thread_id,
+            thread_data = {"reddit_id": thread_id,
+                           "url": url,
                            "title": thread_title,
                            "comments": thread_comments}
+            thread_comments_added = self.db.add_thread(subreddit_name, thread_data)
+            total_comments += thread_comments_added
             subreddit_threads.append(thread_data)
-            total_comments += len(thread_comments)
             print("CURRENT TOTAL COMMENTS: " + str(total_comments))
             if total_comments > self.MAX_COMMENTS_PER_SUBREDDIT:
                 print("REACHED MAX COMMENTS FOR SUBREDDIT, EXITING")
@@ -114,7 +140,7 @@ class Browser:
                 for element in page_link_elements:
                     data = element.get_attribute("href")
                     if subreddit in data:
-                        page_links.append(data)
+                        page_links.append(str(data))
         if len(page_links) > 0:
             return page_links
         else:
@@ -123,11 +149,11 @@ class Browser:
     def get_thread_page(self, thread_url, thread_id):
         self.driver.get(thread_url)
         f = lambda: self.driver.find_element_by_id("header")
-        thread_page = self.find(f, 10,"Thread " + thread_id)
+        thread_page = self.find(f, 10, "Thread " + thread_id)
         return thread_page
 
     def get_thread_title(self, thread_page, thread_id):
-        f = lambda: str(self.driver.find_element_by_css_selector("div.entry.unvoted > p.title > a").text)
+        f = lambda: self.driver.find_element_by_css_selector("div.entry.unvoted > p.title > a")
         title = self.find(f, 1, "Thread title " + thread_id)
         return title.text
 
@@ -140,16 +166,24 @@ class Browser:
             return None
 
     def get_thread_comments(self, thread_comments_elements, thread_id):
+        # Check how many comments we've gotten from this thread
+        comment_count = self.db.get_thread_comments_count(thread_id)
+        if comment_count is None:
+            comment_count = 0
+        elif comment_count > self.MAX_COMMENTS_PER_THREAD:
+            self.db.set_thread_crawled(thread_id)
+
         f = lambda: self.driver.find_elements_by_css_selector("div.entry.unvoted")
         comment_elements = self.find(f, 1, "Thread comment elements " + thread_id)
         if comment_elements is not None:
             thread_comments = []
-            comment_count = 0
+            old_comment_count = 0
+            curr_dt = datetime.now()
             for element in comment_elements:
                 f = lambda: element.find_element_by_css_selector("ul.flat-list > li.first > a")
                 comment_id = self.find(f, 1, "\tcomment_id")
                 if comment_id is not None:
-                    comment_id = comment_id.get_attribute("href")
+                    comment_id = str(comment_id.get_attribute("href")).split('/')[8]
                 else:
                     continue
 
@@ -164,6 +198,12 @@ class Browser:
                 karma = self.find(f, 1, "\tkarma")
                 if karma is not None:
                     karma = karma.text
+                    try:
+                        karma_num = int(str(karma).strip("point").strip("points").strip(" "))
+                        karma = karma_num
+                    except ValueError:
+                        print("Problems parsing karma")
+
                 else:
                     continue
 
@@ -171,6 +211,14 @@ class Browser:
                 time_posted = self.find(f, 1, "\ttime_posted")
                 if time_posted is not None:
                     time_posted = time_posted.get_attribute("title")
+                    time_posted = str(time_posted)
+                    dt = datetime.strptime(time_posted, "%a %b %d %X %Y %Z")
+                    diff = curr_dt - dt
+                    if diff.days > 2:
+                        old_comment_count += 1
+                        if old_comment_count >= 5:
+                            break
+                        continue
                 else:
                     continue
 
@@ -192,7 +240,10 @@ class Browser:
                 comment_count += 1
                 if comment_count > self.MAX_COMMENTS_PER_THREAD:
                     print("READ OVER THREAD COMMENTS LIMIT, STOP READING THREAD COMMENTS")
+                    self.db.set_thread_crawled(thread_id)
                     break
+            # Mark thread crawled
+            self.db.set_thread_crawled(thread_id)
             return thread_comments
         else:
             return None
